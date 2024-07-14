@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Asset Management</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap');
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+        }
+        .title {
+            margin: 0;
+            font-size: 36px;
+            font-weight: 700;
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .logo {
+            height: 80px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"], input[type="number"], input[type="date"], select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #5cb85c;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #fff;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        a {
+            text-decoration: none;
+            color: #5cb85c;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .lifecycle-btn {
+            background-color: #007bff;
+        }
+        .lifecycle-btn:hover {
+            background-color: #0056b3;
+        }
+        .delete-btn {
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .delete-btn:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="title">SmartIT - IT Asset Optimization</h1>
+        <img src="https://cdn.worldvectorlogo.com/logos/societe-generale-2.svg" class="logo">
+    </div>
+    
+    <form action="/add_asset" method="post">
+        <input type="text" name="name" placeholder="Name" required>
+        <select name="type" required>
+            <option value="" disabled selected>Type</option>
+            <option value="Laptop">Laptop</option>
+            <option value="Desktop">Desktop</option>
+            <option value="Server">Server</option>
+            <option value="Router">Router</option>
+            <option value="Switch">Switch</option>
+            <option value="Printer">Printer</option>
+            <option value="Monitor">Monitor</option>
+            <option value="External Hard Drive">External Hard Drive</option>
+            <option value="Network Adapter">Network Adapter</option>
+            <option value="Software License">Software License</option>
+        </select>
+        <input type="date" name="purchase_date" placeholder="Purchase Date" required>
+        <input type="number" name="warranty_period" placeholder="Warranty Period" required>
+        <select name="status" required>
+            <option value="" disabled selected>Status</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+            <option value="Under Maintenance">Under Maintenance</option>
+            <option value="Retired">Retired</option>
+            <option value="Disposed">Disposed</option>
+            <option value="In Storage">In Storage</option>
+            <option value="Damaged">Damaged</option>
+            <option value="Pending Repair">Pending Repair</option>
+            <option value="Loaned">Loaned</option>
+            <option value="Reserved">Reserved</option>
+        </select>
+        <button type="submit">Add Asset</button>
+    </form>
+
+    <h2>Assets</h2>
+    <ul>
+        {% for asset in assets %}
+        <li>
+            {{ asset[1] }} ({{ asset[2] }})
+            <div>
+                <a href="/asset_details/{{ asset[0] }}">Details</a>
+                <form action="/delete_asset/{{ asset[0] }}" method="post" style="display:inline;">
+                    <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this asset?');">Delete</button>
+                </form>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Model Training</h2>
+    <form action="/train_model" method="get">
+        <button type="submit">Train Model</button>
+    </form>
+
+    <h2>Predict Maintenance</h2>
+    <form action="/predict_maintenance" method="post">
+        <label for="asset_id">Asset ID:</label>
+        <input type="number" name="asset_id" placeholder="Asset ID" required>
+        
+        <label for="days_since_last_maintenance">Days since last maintenance:</label>
+        <input type="number" name="days_since_last_maintenance" placeholder="Days" required>
+        
+        <button type="submit">Predict Maintenance</button>
+    </form>
+
+    <h2>Lifecycle Management</h2>
+    <form action="/lifecycle_management" method="get">
+        <button type="submit" class="lifecycle-btn">View Lifecycle Management</button>
+    </form>
+</body>
+</html>

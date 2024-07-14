@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 16px;
+            color: #555;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="number"], select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #5cb85c;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Asset Details for ID: {{ asset_id }}</h1>
+        <p><strong>Total Maintenance Cost:</strong> {{ total_cost }}</p>
+        <p><strong>Next Maintenance Prediction:</strong> {{ maintenance_prediction }}</p>
+    </div>
+
+    <div class="container">
+        <h2>Add Maintenance</h2>
+        <form action="/add_maintenance" method="post">
+            <input type="hidden" name="asset_id" value="{{ asset_id }}">
+            <select name="details" required>
+                <option value="">Select Maintenance Type</option>
+                <option value="Annual servicing">Annual servicing</option>
+                <option value="Replacement of worn parts">Replacement of worn parts</option>
+                <option value="Software upgrade">Software upgrade</option>
+                <!-- Add more options as needed -->
+            </select>
+            <input type="number" step="0.01" name="cost" placeholder="Cost" required>
+            <button type="submit">Add Maintenance</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <h2>Update Status</h2>
+        <form action="/update_status" method="post">
+            <input type="hidden" name="asset_id" value="{{ asset_id }}">
+            <select name="status" required>
+                <option value="">Select New Status</option>
+                <option value="In use">In use</option>
+                <option value="Under maintenance">Under maintenance</option>
+                <option value="Retired">Retired</option>
+                <!-- Add more options as needed -->
+            </select>
+            <button type="submit">Update Status</button>
+        </form>
+    </div>
+
+    <a href="/">Back to Asset List</a>
+</body>
+</html>
